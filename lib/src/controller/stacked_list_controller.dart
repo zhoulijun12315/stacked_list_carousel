@@ -26,8 +26,7 @@ class StackedListController<T> {
   int swapCount = 0;
 
   /// Whether all cards has been discarded in consume mode.
-  bool get consumedAll =>
-      swapCount >= items.length && carouselBehavior == CarouselBehavior.consume;
+  bool get consumedAll => swapCount >= items.length && carouselBehavior == CarouselBehavior.consume;
 
   /// The real outermost index of outermost card inside [items].
   int get realOutermostIndex => swapCount % items.length;
@@ -35,8 +34,7 @@ class StackedListController<T> {
   bool get _isAnimating => transitionForwarding;
 
   /// Whether the animation is forwarding.
-  bool get transitionForwarding =>
-      transitionController.status == AnimationStatus.forward;
+  bool get transitionForwarding => transitionController.status == AnimationStatus.forward;
 
   /// Animation value.
   double get transitionValue => transitionController.value;
@@ -71,15 +69,12 @@ class StackedListController<T> {
     outermostCardOffset.value = Offset.zero;
   }
 
-  void registerOutermostCardAnimationListener() =>
-      outermostCardAnimationController.addListener(
+  void registerOutermostCardAnimationListener() => outermostCardAnimationController.addListener(
         () {
           if (outermostCardBehavior == OutermostCardBehavior.flyAway) {
-            outermostCardOffset.value = outermostCardOffset.value *
-                (1 + outermostCardAnimationController.value / 4);
+            outermostCardOffset.value = outermostCardOffset.value * (1 + outermostCardAnimationController.value / 4);
           } else {
-            outermostCardOffset.value = outermostCardOffset.value *
-                outermostCardAnimationController.value;
+            outermostCardOffset.value = outermostCardOffset.value * outermostCardAnimationController.value;
           }
         },
       );
@@ -122,9 +117,7 @@ class StackedListController<T> {
     if ((details.velocity.pixelsPerSecond.dx).abs() > dxThreshold) {
       await changeOrders(withOutermostDiscardEffect: true);
     } else {
-      final dxMoved =
-          (outermostCardOffset.value.dx - (layoutWidth - cardViewWidth) / 2)
-              .abs();
+      final dxMoved = (outermostCardOffset.value.dx - (layoutWidth - cardViewWidth) / 2).abs();
 
       if (dxMoved > dxThreshold) {
         await changeOrders(withOutermostDiscardEffect: true);
@@ -147,7 +140,7 @@ class StackedListController<T> {
   bool _timerUnlocked = true;
 
   void startTransitionLoop() {
-    if (carouselBehavior == CarouselBehavior.loop) {
+    if (carouselBehavior == CarouselBehavior.loop && autoSlideDuration != Duration.zero) {
       _startTimer();
     }
   }
